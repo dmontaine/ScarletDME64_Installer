@@ -39,15 +39,48 @@ echo
 echo If requested, enter your account password:
 sudo pwd
 clear
+
 #	Unzip sdme.zip into temporary directory
 unzip sdme.zip 
 cd sdme
+
 #	Run make to created qm executable
 make -B
-#	Create qm system user and group
-sudo groupadd --system qmusers
-sudo usermod -aG qmusers root
-sudo useradd --system qmsys --gid qmusers
+
+# Create qm system user and group
+
+if getent group qmusers > /dev/null 2>&1; then
+    echo "Group qmusers already exists."
+else
+    echo "Creating group: qmusers"
+
+    if command -v groupadd > /dev/null 2>&1; then
+        groupadd --system qmusers
+        usermod -a -G qmusers root
+
+    elif command -v addgroup > /dev/null 2>&1; then
+        addgroup --system qmusers
+        adduser root qmusers
+    else
+        echo "Failed to create qmusers group."
+    fi 
+fi
+
+# Create QM User
+if getent passwd qmsys > /dev/null 2>&1; then
+    echo "User qmsys already exists."
+else 
+    echo "Creating user: qmsys."
+
+    if command -v useradd > /dev/null 2>&1; then
+        useradd --system qmsys -G qmusers
+    elif command -v adduser > /dev/null 2>&1; then
+        adduser --system qmsys -G qmusers
+    else
+        echo "Failed to create qmsys user."
+    fi
+fi
+
 sudo cp -R qmsys /usr
 sudo cp -R bin /usr/qmsys
 sudo chown -R qmsys:qmusers /usr/qmsys
@@ -57,27 +90,50 @@ sudo chmod 644 /etc/scarlet.conf
 sudo chmod -R 775 /usr/qmsys
 sudo chmod 775 /usr/qmsys/bin
 sudo chmod 775 /usr/qmsys/bin/*
+
 sudo ln -s /usr/qmsys/bin/qm /usr/bin/qm
-#	Install scarletdme.service for systemd
-sudo cp usr/lib/systemd/system/* /usr/lib/systemd/system
-sudo chown root:root /usr/lib/systemd/system/scarletdme.service
-sudo chown root:root /usr/lib/systemd/system/scarletdmeclient.socket
-sudo chown root:root /usr/lib/systemd/system/scarletdmeclient@.service
-sudo chown root:root /usr/lib/systemd/system/scarletdmeserver.socket
-sudo chown :root /usr/lib/systemd/system/scarletdmeserver@.service
-sudo systemctl enable scarletdme.service
-sudo systemctl enable scarletdmeclient.socket
-sudo systemctl enable scarletdmeserver.socket
-sudo systemctl start scarletdme.service
-sudo systemctl start scarletdmeclient.socket
-sudo systemctl start scarletdmeserver.socket
+
+# Install scarletdme.service for systemd
+SYSTEMDPATH=/usr/lib/systemd/system
+
+if [ -f  "$SYSTEMDPATH" ]; then
+    if [ -f "$SYSTEMDPATH/scarletdme.service" ]; then
+        echo "ScarletDME systemd service is already installed."
+    else
+        echo "Installing scarletdme.service for systemd."
+	
+        sudo cp usr/lib/systemd/system/* $SYSTEMDPATH
+
+        sudo chown root:root $SYSTEMDPATH/scarletdme.service
+        sudo chown root:root $SYSTEMDPATH/scarletdmeclient.socket
+        sudo chown root:root $SYSTEMDPATH/scarletdmeclient@.service
+        sudo chown root:root $SYSTEMDPATH/scarletdmeserver.socket
+        sudo chown root:root $SYSTEMDPATH/scarletdmeserver@.service
+
+        sudo chmod 644 $SYSTEMDPATH/scarletdme.service
+        sudo chmod 644 $SYSTEMDPATH/scarletdmeclient.socket
+        sudo chmod 644 $SYSTEMDPATH/scarletdmeclient@.service
+        sudo chmod 644 $SYSTEMDPATH/scarletdmeserver.socket
+        sudo chmod 644 $SYSTEMDPATH/scarletdmeserver@.service
+
+ 	sudo systemctl enable scarletdme.service
+	sudo systemctl enable scarletdmeclient.socket
+	sudo systemctl enable scarletdmeserver.socket
+	sudo systemctl start scarletdme.service
+	sudo systemctl start scarletdmeclient.socket
+	sudo systemctl start scarletdmeserver.socket
+    fi
+fi
+
 #	Add $tuser to qmusers group
 sudo usermod -aG qmusers $tuser
+
 #	Start ScarletDME server
 sudo /usr/qmsys/bin/qm -start
 cd /usr/qmsys
 sudo bin/qm -internal FIRST.COMPILE
 cd $cwd
+
 #	Remove temporary sdme install directory
 rm -fr sdme
 echo
