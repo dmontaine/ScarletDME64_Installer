@@ -18,14 +18,19 @@ clear
 echo ScarletDME installer
 echo --------------------
 echo
+echo
+echo "Warning: This installer will overwrite existing files"
+ech  "         in the /usr/qmsys directory!"
+echo
 echo "For this install to work you must:"
 echo
 echo "  1 be running a recent version - 2022 and later"
-echo "    of a Redhat or Debian based distro"
+echo "    of a Redhat, Debian or Arch based distro"
 echo
 echo "  2 have a build environment installed"
 echo "    For Debian run apt get build essential"
 echo "    For Redhat run dnf groupinstall 'development tools'"
+echo "    For Arch run pacman -S base-devel"
 echo
 echo "  3 have sudo installed and be a member of the sudo group"
 echo
