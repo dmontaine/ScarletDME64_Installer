@@ -96,7 +96,7 @@ sudo ln -s /usr/qmsys/bin/qm /usr/bin/qm
 # Install scarletdme.service for systemd
 SYSTEMDPATH=/usr/lib/systemd/system
 
-if [ -f  "$SYSTEMDPATH" ]; then
+if [ -d  "$SYSTEMDPATH" ]; then
     if [ -f "$SYSTEMDPATH/scarletdme.service" ]; then
         echo "ScarletDME systemd service is already installed."
     else
