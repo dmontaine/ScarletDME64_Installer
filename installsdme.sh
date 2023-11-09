@@ -20,7 +20,7 @@ echo --------------------
 echo
 echo
 echo "Warning: This installer will overwrite existing files"
-ech0 "         in the /usr/qmsys directory!"
+echo "         in the /usr/qmsys directory!"
 echo
 echo "For this install to work you must:"
 echo
