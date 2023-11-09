@@ -55,12 +55,12 @@ else
     echo "Creating group: qmusers"
 
     if command -v groupadd > /dev/null 2>&1; then
-        groupadd --system qmusers
-        usermod -a -G qmusers root
+        sudo groupadd --system qmusers
+        sudo usermod -a -G qmusers root
 
     elif command -v addgroup > /dev/null 2>&1; then
-        addgroup --system qmusers
-        adduser root qmusers
+        sudo addgroup --system qmusers
+        sudo adduser root qmusers
     else
         echo "Failed to create qmusers group."
     fi 
@@ -73,9 +73,9 @@ else
     echo "Creating user: qmsys."
 
     if command -v useradd > /dev/null 2>&1; then
-        useradd --system qmsys -G qmusers
+        sudo useradd --system qmsys -G qmusers
     elif command -v adduser > /dev/null 2>&1; then
-        adduser --system qmsys -G qmusers
+        sudo adduser --system qmsys -G qmusers
     else
         echo "Failed to create qmsys user."
     fi
