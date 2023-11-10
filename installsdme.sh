@@ -150,7 +150,7 @@ echo "Log out and back in or reboot to assure that"
 echo "group memberships are updated."
 echo
 echo "To completely delete ScarletDME, run the" 
-echo "deletesdm.sh bash script provided."
+echo "deletesdme.sh bash script provided."
 echo
 echo "Afterward, open a terminal and enter 'qm' in your"
 echo "desired qm home directory."
