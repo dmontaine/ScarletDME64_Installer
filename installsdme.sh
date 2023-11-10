@@ -88,6 +88,7 @@ fi
 
 sudo cp -R qmsys /usr
 sudo cp -R bin /usr/qmsys
+sudo cp -R gplsrc /usr/qmsys
 sudo chown -R qmsys:qmusers /usr/qmsys
 sudo chown root:root /usr/qmsys
 sudo cp scarlet.conf /etc/scarlet.conf

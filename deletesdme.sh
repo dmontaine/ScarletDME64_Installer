@@ -24,8 +24,10 @@ cd ~
 rm -fr qm_$USER
 # remove the /usr/qmsys directory
 sudo rm -fr /usr/qmsys
+echo "/usr/qmsys directory removed"
 # remove the symbolic link to qm in /usr/bin
 sudo rm /usr/bin/qm
+echo "symbolic line /usr/bin/qm removed"
 cd /usr/lib/systemd/system
 #stop services
 sudo systemctl stop scarletdme.service
@@ -36,9 +38,11 @@ sudo systemctl disable scarletdme.service
 sudo systemctl disable scarletdmeclient.socket
 sudo systemctl disable scarletdmeserver.socket
 # remove service files
+echo "removing systemd service files"
 sudo rm /usr/lib/systemd/system/scarletdme*
 # remove qmsys user and qmusers group
+echo "removing qmsys user and qmusers group"
 sudo userdel qmsys
 sudo groupdel qmusers
-
+echo "deletesdme.sh script completed"
 
