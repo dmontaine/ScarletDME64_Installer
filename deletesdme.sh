@@ -27,7 +27,7 @@ sudo rm -fr /usr/qmsys
 echo "/usr/qmsys directory removed"
 # remove the symbolic link to qm in /usr/bin
 sudo rm /usr/bin/qm
-echo "symbolic line /usr/bin/qm removed"
+echo "symbolic link /usr/bin/qm removed"
 cd /usr/lib/systemd/system
 #stop services
 sudo systemctl stop scarletdme.service
@@ -45,4 +45,7 @@ echo "removing qmsys user and qmusers group"
 sudo userdel qmsys
 sudo groupdel qmusers
 echo "deletesdme.sh script completed"
+echo "logout/in or reboot to update"
+echo "user and group information"
+echo
 
