@@ -21,7 +21,6 @@ echo ----------------------------
 	esac
 # remove the qm directory for the current user
 cd ~
-rm -fr qm_$USER
 # remove the /usr/qmsys directory
 sudo rm -fr /usr/qmsys
 echo "/usr/qmsys directory removed"
