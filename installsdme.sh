@@ -5,9 +5,14 @@
 #	a copy can be found on the web here: https://blueoakcouncil.org/license/1.0.0
 #
     if [[ $EUID -eq 0 ]]; then
-       echo "This script must NOT be run as root" 1>&2
-       exit
+        echo "This script must NOT be run as root" 1>&2
+        exit
     fi
+    if [ -f  "/usr/qmsys/bin/qm" ]; then
+		echo "A version of qm is already installed"
+		echo "Uninstall it before running this script"
+		exit
+	fi
 #
 tgroup=qmusers
 tuser=$USER
@@ -17,10 +22,6 @@ cwd=$(pwd)
 clear 
 echo ScarletDME installer
 echo --------------------
-echo
-echo
-echo "Warning: This installer will overwrite existing files"
-echo "         in the /usr/qmsys directory!"
 echo
 echo "For this install to work you must:"
 echo
@@ -89,7 +90,13 @@ fi
 sudo cp -R qmsys /usr
 sudo cp -R bin /usr/qmsys
 sudo cp -R gplsrc /usr/qmsys
+sudo cp -R gplobj /usr/qmsys
+sudo cp -R terminfo /usr/qmsys
+sudo cp Makefile /usr/qmsys
+sudo cp gpl.src /usr/qmsys
+sudo cp terminfo.src /usr/qmsys
 sudo chown -R qmsys:qmusers /usr/qmsys
+sudo chown -R qmsys:qmusers /usr/qmsys/terminfo
 sudo chown root:root /usr/qmsys
 sudo cp scarlet.conf /etc/scarlet.conf
 sudo chmod 644 /etc/scarlet.conf

@@ -7,8 +7,15 @@
 #
     if [[ $EUID -eq 0 ]]; then
        echo "This script must NOT be run as root" 1>&2
-       exit 1
+       exit
     fi
+    if [ -f  "/usr/qmsys/bin/qm" ]; then
+		echo
+	else
+		echo "QM is not installed!"
+		echo "This script will not run."
+		exit
+	fi
 #
 clear
 echo REMOVE ScarletDME Completely
@@ -19,14 +26,13 @@ echo ----------------------------
 		[nN] ) break;;
 		* ) break;;
 	esac
-# remove the qm directory for the current user
-cd ~
 # remove the /usr/qmsys directory
 sudo rm -fr /usr/qmsys
-echo "/usr/qmsys directory removed"
+echo
+echo "Removed /usr/qmsys directory."
 # remove the symbolic link to qm in /usr/bin
 sudo rm /usr/bin/qm
-echo "symbolic link /usr/bin/qm removed"
+echo "Removed symbolic link /usr/bin/qm."
 cd /usr/lib/systemd/system
 #stop services
 sudo systemctl stop scarletdme.service
@@ -37,14 +43,16 @@ sudo systemctl disable scarletdme.service
 sudo systemctl disable scarletdmeclient.socket
 sudo systemctl disable scarletdmeserver.socket
 # remove service files
-echo "removing systemd service files"
 sudo rm /usr/lib/systemd/system/scarletdme*
+echo "Removed systemd service files."
 # remove qmsys user and qmusers group
-echo "removing qmsys user and qmusers group"
+echo "Removed qmsys user and qmusers group."
 sudo userdel qmsys
 sudo groupdel qmusers
-echo "deletesdme.sh script completed"
-echo "logout/in or reboot to update"
-echo "user and group information"
+echo "Removed qmsys user and qmusers group."
+echo
+echo "Deletesdme.sh script completed."
+echo "Logout/in or reboot to update"
+echo "user and group information."
 echo
 
