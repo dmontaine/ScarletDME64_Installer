@@ -19,7 +19,7 @@
 #
 clear
 echo REMOVE ScarletDME Completely
-echo ----------------------------
+echo -----------------------------------------
 	read -p "Are you sure? (y/n) " yn
 	case $yn in
 		[yY] ) echo;;
@@ -51,6 +51,7 @@ userdel qmsys
 groupdel qmusers
 echo "Removed qmsys user and qmusers group."
 echo
+echo -----------------------------------------
 echo "Deletesdme_nosudo.sh script completed."
 echo "Logout/in or reboot to update"
 echo "user and group information."
