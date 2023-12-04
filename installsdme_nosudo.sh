@@ -14,8 +14,6 @@
 		exit
 	fi
 #
-tgroup=qmusers
-tuser=$USER
 cwd=$(pwd)
 #
 
@@ -132,9 +130,6 @@ if [ -d  "$SYSTEMDPATH" ]; then
     fi
 fi
 
-#	Add $tuser to qmusers group
-usermod -aG qmusers $tuser
-
 #	Start ScarletDME server
 /usr/qmsys/bin/qm -start
 cd /usr/qmsys
@@ -147,14 +142,18 @@ echo
 echo
 echo -----------------------------------------------------
 echo "The ScarletDME server is installed."
-echo "Log out and back in or reboot to assure that" 
-echo "group memberships are updated."
 echo
-echo "To completely delete ScarletDME, run the" 
-echo "deletesdme_nosudo.sh bash script provided."
+echo "Enter: usermod -aG qmusers <yourusername>" to add
+echo "your user to the qmusers group."
+echo
+echo "Reboot to assure that group memberships are updated."
 echo
 echo "Afterward, open a terminal and enter 'qm' in your"
 echo "desired qm home directory."
 echo -----------------------------------------------------
+echo
+echo "To completely delete ScarletDME, run the" 
+echo "deletesdme_nosudo.sh bash script provided."
+
 echo
 exit
